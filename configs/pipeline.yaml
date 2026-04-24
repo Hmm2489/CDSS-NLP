@@ -1,0 +1,22 @@
+# NLP pipeline settings (see src/medinfer/nlp/pipeline.py)
+
+# Path to a QuickUMLS index built from your UMLS release:
+#   python -m quickumls.install data/umls/<release>/META data/quickumls_index
+# Leave null to run with the starter lexicon only.
+quickumls_path: null
+
+quickumls:
+  threshold: 0.8            # min string similarity; lower = more recall, more noise
+  similarity_name: jaccard  # jaccard | dice | cosine | overlap
+  window: 5
+  best_match: true
+  accepted_semtypes:
+    - T184   # Sign or Symptom
+    - T033   # Finding
+    - T047   # Disease or Syndrome
+
+# Hand-curated lay-language lexicon matched before QuickUMLS (it wins on overlaps).
+lexicon_path: src/medinfer/nlp/resources/symptom_lexicon.json
+
+# Extra ConText rules for patient phrasing, added on top of medSpaCy's defaults.
+context_rules_path: src/medinfer/nlp/resources/context_rules.json

@@ -1,0 +1,26 @@
+{
+  "_comment": "Patient-language ConText rules, added on top of medSpaCy's clinical defaults. Categories: NEGATED_EXISTENCE, POSSIBLE_EXISTENCE, HISTORICAL, HYPOTHETICAL, FAMILY. Direction: FORWARD (modifies what follows), BACKWARD, BIDIRECTIONAL, TERMINATE.",
+  "context_rules": [
+    {"literal": "i don't have", "category": "NEGATED_EXISTENCE", "direction": "FORWARD"},
+    {"literal": "i do not have", "category": "NEGATED_EXISTENCE", "direction": "FORWARD"},
+    {"literal": "haven't had", "category": "NEGATED_EXISTENCE", "direction": "FORWARD"},
+    {"literal": "haven't been", "category": "NEGATED_EXISTENCE", "direction": "FORWARD"},
+    {"literal": "not really", "category": "NEGATED_EXISTENCE", "direction": "FORWARD"},
+    {"literal": "never had", "category": "NEGATED_EXISTENCE", "direction": "FORWARD"},
+    {"literal": "is gone", "category": "NEGATED_EXISTENCE", "direction": "BACKWARD"},
+    {"literal": "went away", "category": "NEGATED_EXISTENCE", "direction": "BACKWARD"},
+    {"literal": "i think i have", "category": "POSSIBLE_EXISTENCE", "direction": "FORWARD"},
+    {"literal": "maybe", "category": "POSSIBLE_EXISTENCE", "direction": "FORWARD"},
+    {"literal": "a bit of", "category": "POSSIBLE_EXISTENCE", "direction": "FORWARD"},
+    {"literal": "kind of", "category": "POSSIBLE_EXISTENCE", "direction": "FORWARD"},
+    {"literal": "my mom", "category": "FAMILY", "direction": "FORWARD"},
+    {"literal": "my dad", "category": "FAMILY", "direction": "FORWARD"},
+    {"literal": "my husband", "category": "FAMILY", "direction": "FORWARD"},
+    {"literal": "my wife", "category": "FAMILY", "direction": "FORWARD"},
+    {"literal": "my kids", "category": "FAMILY", "direction": "FORWARD"},
+    {"literal": "last year", "category": "HISTORICAL", "direction": "BIDIRECTIONAL"},
+    {"literal": "years ago", "category": "HISTORICAL", "direction": "BIDIRECTIONAL"},
+    {"literal": "what if", "category": "HYPOTHETICAL", "direction": "FORWARD"},
+    {"literal": "worried i might get", "category": "HYPOTHETICAL", "direction": "FORWARD"}
+  ]
+}

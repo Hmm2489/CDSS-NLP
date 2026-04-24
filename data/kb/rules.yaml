@@ -1,0 +1,81 @@
+# Starter knowledge base: just enough to exercise the engine end to end.
+#
+# WARNING: the CF weights below are hand-picked for illustration, NOT clinical
+# knowledge. Replace them with weights derived from data (HPO frequencies, the
+# Zhou et al. 2014 symptom-disease network, DDXPlus) once those are wired in.
+#
+# Disease/symptom IDs are UMLS CUIs. IDs in CAPS are intermediate syndromes;
+# chaining through them is what makes this forward chaining, not a lookup table.
+
+concepts:
+  # intermediate syndromes
+  URI:      {name: Upper respiratory syndrome, type: intermediate}
+  FEBRILE:  {name: Febrile syndrome, type: intermediate}
+  LRI:      {name: Lower respiratory syndrome, type: intermediate}
+  GI:       {name: Gastrointestinal syndrome, type: intermediate}
+  # diseases
+  C0009443: {name: Common cold, type: disease}
+  C0021400: {name: Influenza, type: disease}
+  C5203670: {name: COVID-19, type: disease}
+  C0032285: {name: Pneumonia, type: disease}
+  C0004096: {name: Asthma, type: disease}
+  C0027051: {name: Myocardial infarction, type: disease}
+  C0017160: {name: Gastroenteritis, type: disease}
+  C0149931: {name: Migraine, type: disease}
+  C2607914: {name: Allergic rhinitis, type: disease}
+
+rules:
+  # --- symptoms -> syndromes -------------------------------------------------
+  - {id: uri_sore_throat, if: [C0242429], then: URI, cf: 0.4}
+  - {id: uri_runny_nose,  if: [C1260880], then: URI, cf: 0.5}
+  - {id: uri_congestion,  if: [C0027424], then: URI, cf: 0.4}
+  - {id: uri_sneezing,    if: [C0037383], then: URI, cf: 0.3}
+
+  - {id: febrile_fever,   if: [C0015967], then: FEBRILE, cf: 0.6}
+  - {id: febrile_chills,  if: [C0085593], then: FEBRILE, cf: 0.4}
+  - {id: febrile_aches,   if: [C0231528, C0015672], then: FEBRILE, cf: 0.3}
+
+  - {id: lri_cough_sob,   if: [C0010200, C0013404], then: LRI, cf: 0.6}
+  - {id: lri_cough_chest, if: [C0010200, C0008031], then: LRI, cf: 0.4}
+
+  - {id: gi_diarrhea,     if: [C0011991], then: GI, cf: 0.6}
+  - {id: gi_vomiting,     if: [C0042963], then: GI, cf: 0.5}
+  - {id: gi_nausea,       if: [C0027497], then: GI, cf: 0.3}
+
+  # --- syndromes / symptoms -> diseases --------------------------------------
+  - {id: cold_uri,           if: [URI], then: C0009443, cf: 0.5}
+  - {id: cold_uri_afebrile,  if: [URI, "!C0015967"], then: C0009443, cf: 0.3}
+  - {id: cold_febrile,       if: [FEBRILE], then: C0009443, cf: -0.2}
+
+  - {id: flu_febrile_aches,  if: [FEBRILE, C0231528], then: C0021400, cf: 0.6}
+  - {id: flu_febrile_cough,  if: [FEBRILE, C0010200], then: C0021400, cf: 0.4}
+  - {id: flu_uri,            if: [URI], then: C0021400, cf: 0.1}
+  - {id: flu_no_fever,       if: ["!C0015967"], then: C0021400, cf: -0.4}
+
+  - {id: covid_anosmia,      if: [C0003126], then: C5203670, cf: 0.7}
+  - {id: covid_febrile_cough, if: [FEBRILE, C0010200], then: C5203670, cf: 0.3}
+  - {id: covid_fatigue_cough, if: [C0015672, C0010200], then: C5203670, cf: 0.2}
+
+  - {id: pna_lri_febrile,    if: [LRI, FEBRILE], then: C0032285, cf: 0.7}
+  - {id: pna_lri,            if: [LRI], then: C0032285, cf: 0.3}
+  - {id: pna_no_fever,       if: ["!C0015967"], then: C0032285, cf: -0.3}
+
+  - {id: asthma_wheeze_sob,  if: [C0043144, C0013404], then: C0004096, cf: 0.6}
+  - {id: asthma_wheeze,      if: [C0043144], then: C0004096, cf: 0.3}
+  - {id: asthma_febrile,     if: [FEBRILE], then: C0004096, cf: -0.3}
+
+  - {id: mi_chest_sweat,     if: [C0008031, C0700590], then: C0027051, cf: 0.6}
+  - {id: mi_chest_sob,       if: [C0008031, C0013404], then: C0027051, cf: 0.4}
+  - {id: mi_chest_nausea,    if: [C0008031, C0027497], then: C0027051, cf: 0.2}
+
+  - {id: gastro_gi,          if: [GI], then: C0017160, cf: 0.7}
+  - {id: gastro_gi_pain,     if: [GI, C0000737], then: C0017160, cf: 0.2}
+
+  - {id: migraine_photo,     if: [C0018681, C0085636], then: C0149931, cf: 0.7}
+  - {id: migraine_nausea,    if: [C0018681, C0027497], then: C0149931, cf: 0.4}
+  - {id: migraine_headache,  if: [C0018681], then: C0149931, cf: 0.2}
+  - {id: migraine_febrile,   if: [FEBRILE], then: C0149931, cf: -0.3}
+
+  - {id: allergy_sneeze_nose, if: [C0037383, C1260880], then: C2607914, cf: 0.5}
+  - {id: allergy_uri_afebrile, if: [URI, "!C0015967"], then: C2607914, cf: 0.2}
+  - {id: allergy_febrile,    if: [FEBRILE], then: C2607914, cf: -0.5}

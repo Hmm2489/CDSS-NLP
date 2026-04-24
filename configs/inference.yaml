@@ -1,0 +1,18 @@
+# Inference engine settings (see src/medinfer/inference/)
+
+rules_path: data/kb/rules.yaml
+# Optional CSV produced by `python -m medinfer.kb.build_umls_kb`; each edge becomes a one-premise rule.
+edges_path: null
+
+# Certainty a symptom enters working memory with, by ConText assertion.
+evidence_cf:
+  present: 1.0
+  uncertain: 0.4      # "maybe a fever", "possible rash"
+  negated: -1.0       # "no fever" is evidence *against* diseases that expect fever
+
+# Symptoms with these flags are dropped: they don't describe the patient now.
+drop_if: [is_family, is_hypothetical, is_historical]
+
+premise_threshold: 0.2   # a premise counts as satisfied when its CF is at least this
+max_iterations: 50
+top_k: 5

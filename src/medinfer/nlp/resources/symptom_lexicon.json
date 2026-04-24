@@ -1,0 +1,26 @@
+{
+  "_comment": "Starter lay-language lexicon. QuickUMLS matches UMLS strings, which rarely include phrasing like 'burning up', so this catches what it misses. CUIs are from UMLS; check them against your release with MRCONSO.RRF. Grow this from the misses in your benchmark error analysis.",
+  "concepts": [
+    {"cui": "C0015967", "name": "Fever", "terms": ["fever", "feverish", "high temperature", "high temp", "burning up", "running a temp", "pyrexia"]},
+    {"cui": "C0085593", "name": "Chills", "terms": ["chills", "shivering", "the shivers", "rigors"]},
+    {"cui": "C0010200", "name": "Cough", "terms": ["cough", "coughing", "dry cough", "wet cough", "hacking cough"]},
+    {"cui": "C0013404", "name": "Dyspnea", "terms": ["shortness of breath", "short of breath", "can't breathe", "cannot breathe", "hard to breathe", "trouble breathing", "breathless", "out of breath", "dyspnea", "sob"]},
+    {"cui": "C0043144", "name": "Wheezing", "terms": ["wheezing", "wheeze", "whistling when i breathe"]},
+    {"cui": "C0008031", "name": "Chest pain", "terms": ["chest pain", "pain in my chest", "chest hurts", "chest tightness", "tight chest", "pressure in my chest"]},
+    {"cui": "C0242429", "name": "Sore throat", "terms": ["sore throat", "throat hurts", "scratchy throat", "painful swallowing"]},
+    {"cui": "C1260880", "name": "Rhinorrhea", "terms": ["runny nose", "nose is running", "rhinorrhea"]},
+    {"cui": "C0027424", "name": "Nasal congestion", "terms": ["stuffy nose", "blocked nose", "congested", "nasal congestion"]},
+    {"cui": "C0037383", "name": "Sneezing", "terms": ["sneezing", "sneeze", "sneezes"]},
+    {"cui": "C0018681", "name": "Headache", "terms": ["headache", "head hurts", "head is pounding", "pounding head", "migraine-like pain"]},
+    {"cui": "C0085636", "name": "Photophobia", "terms": ["sensitive to light", "light hurts my eyes", "photophobia"]},
+    {"cui": "C0012833", "name": "Dizziness", "terms": ["dizzy", "dizziness", "lightheaded", "light-headed", "room is spinning"]},
+    {"cui": "C0015672", "name": "Fatigue", "terms": ["fatigue", "tired", "exhausted", "no energy", "worn out", "wiped out"]},
+    {"cui": "C0231528", "name": "Myalgia", "terms": ["body aches", "muscle aches", "aching all over", "muscle pain", "myalgia", "achy"]},
+    {"cui": "C0027497", "name": "Nausea", "terms": ["nausea", "nauseous", "nauseated", "feel sick to my stomach", "queasy"]},
+    {"cui": "C0042963", "name": "Vomiting", "terms": ["vomiting", "vomited", "throwing up", "threw up", "puking"]},
+    {"cui": "C0011991", "name": "Diarrhea", "terms": ["diarrhea", "diarrhoea", "loose stools", "watery stools"]},
+    {"cui": "C0000737", "name": "Abdominal pain", "terms": ["abdominal pain", "stomach ache", "stomachache", "stomach pain", "belly pain", "tummy ache", "stomach hurts", "cramps"]},
+    {"cui": "C0003126", "name": "Anosmia", "terms": ["loss of smell", "can't smell", "cannot smell", "lost my sense of smell", "anosmia"]},
+    {"cui": "C0700590", "name": "Increased sweating", "terms": ["sweating", "sweaty", "cold sweat", "drenched in sweat"]}
+  ]
+}
