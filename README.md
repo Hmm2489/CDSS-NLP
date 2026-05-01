@@ -32,6 +32,19 @@ python -m venv .venv
 .venv/bin/python -m evaluation.eval_diagnosis  data/processed/sample.jsonl
 ```
 
+## Docker
+
+```bash
+docker compose build
+docker compose run --rm medinfer "I've had a fever and body aches since Monday"
+docker compose run --rm --entrypoint python medinfer -m evaluation.eval_diagnosis data/processed/sample.jsonl
+docker build --target test .        # run the test suite in the container
+```
+
+UMLS data and the QuickUMLS index are never copied into the image (licence). Build the index
+into `data/quickumls_index/` on the host and put `MEDINFER_QUICKUMLS_PATH=/app/data/quickumls_index`
+in a `.env` file; compose mounts it read-only.
+
 ## Layout
 
 | Path | What |

@@ -11,3 +11,6 @@ data/raw/*
 
 evaluation/results/*
 !evaluation/results/.gitkeep
+
+# Local docker compose settings
+.env

@@ -1,0 +1,20 @@
+# docker compose build
+# docker compose run --rm medinfer "I've had a fever and body aches since Monday"
+# docker compose run --rm --entrypoint python medinfer -m evaluation.eval_diagnosis data/processed/sample.jsonl
+#
+# To enable QuickUMLS once you've built the index into ./data/quickumls_index,
+# create a .env file next to this one containing:
+#   MEDINFER_QUICKUMLS_PATH=/app/data/quickumls_index
+
+services:
+  medinfer:
+    build:
+      context: .
+      target: runtime
+    image: cdss-nlp:latest
+    environment:
+      MEDINFER_QUICKUMLS_PATH: ${MEDINFER_QUICKUMLS_PATH:-}
+    volumes:
+      - ./data/quickumls_index:/app/data/quickumls_index:ro
+      - ./data/processed:/app/data/processed:ro
+      - ./evaluation/results:/app/evaluation/results

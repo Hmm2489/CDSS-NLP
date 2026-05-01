@@ -1,0 +1,16 @@
+# Licensed / large data must never enter an image (and this repo is public).
+data/umls/
+data/quickumls_index/
+data/raw/
+
+.git/
+.venv/
+**/__pycache__/
+*.egg-info/
+.pytest_cache/
+evaluation/results/
+notebooks/
+mise.toml
+Dockerfile
+compose.yaml
+.env

@@ -10,6 +10,7 @@ Component order matters:
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import medspacy
@@ -38,7 +39,8 @@ def load_lexicon_rules(path: Path) -> list[TargetRule]:
 
 def build_nlp(config: dict | None = None) -> Language:
     config = config or load_config("pipeline")
-    quickumls_path = resolve(config.get("quickumls_path"))
+    # The env var lets Docker point at a mounted index without editing the YAML.
+    quickumls_path = resolve(os.environ.get("MEDINFER_QUICKUMLS_PATH") or config.get("quickumls_path"))
 
     components = ["medspacy_pyrush", "medspacy_target_matcher", "medspacy_context"]
     if quickumls_path is not None:
