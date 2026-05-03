@@ -27,6 +27,7 @@ packages = ["src/medinfer"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 filterwarnings = [
     # Noise from inside spaCy / medSpaCy, not our code.
     "ignore::DeprecationWarning:spacy.*",
