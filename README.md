@@ -188,6 +188,20 @@ python -m quickumls.install data/umls/<release>/META data/quickumls_index
   association strength.
 - **English only**, and tuned for consumer phrasing rather than clinical notes.
 
+## Future considerations
+
+- **Transformer-based concept extraction.** Symptom extraction currently relies on lexicon
+  and approximate string matching. A transformer model fine-tuned for clinical concept
+  recognition could understand context and catch descriptive paraphrases ("feel like I
+  can't get enough air") that string matching misses, while still feeding the same
+  `Symptom` records into the rule-based reasoner.
+- **Clinical notes and other languages.** Adapting the pipeline to clinician-written notes
+  and to non-English patient descriptions, both of which use different vocabulary and
+  phrasing.
+- **Integration with health records.** Reading structured data such as age, sex, and medical
+  history from an electronic health record (e.g. through the FHIR standard) to make the
+  differential more specific to the patient.
+
 ## Citations
 
 1. National Academies of Sciences, Engineering, and Medicine. *Improving Diagnosis in Health
