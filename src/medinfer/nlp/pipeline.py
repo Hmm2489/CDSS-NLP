@@ -18,6 +18,7 @@ from loguru import logger
 from medspacy.context import ConTextRule
 from medspacy.target_matcher import TargetRule
 from spacy.language import Language
+from spacy.tokens import Span
 
 from medinfer.config import load_config, resolve
 
@@ -25,6 +26,11 @@ from medinfer.config import load_config, resolve
 logger.disable("PyRuSH")
 
 SYMPTOM_LABEL = "SYMPTOM"
+
+# Clinical triggers that introduce a list of negated findings ("denies fever, chills and
+# cough"). These keep negating across commas; every other forward negation stops at one.
+LIST_NEGATION_TRIGGERS = {"deny", "negative for", "free of", "absence of", "clear of",
+                          "lack of", "unremarkable for"}
 
 
 def load_lexicon_rules(path: Path) -> list[TargetRule]:
@@ -72,4 +78,21 @@ def build_nlp(config: dict | None = None) -> Language:
     if context_rules_path is not None:
         nlp.get_pipe("medspacy_context").add(ConTextRule.from_json(context_rules_path))
 
+    for rule in nlp.get_pipe("medspacy_context").rules:
+        if (rule.category == "NEGATED_EXISTENCE" and rule.direction == "FORWARD"
+                and rule.literal.lower() not in LIST_NEGATION_TRIGGERS):
+            rule.on_modifies = negation_stops_at_comma
+
     return nlp
+
+
+def negation_stops_at_comma(target: Span, modifier: Span, span_between: Span) -> bool:
+    """Patient text: "no fever, runny nose and sneezing" negates only the fever.
+
+    ConText would otherwise negate everything up to the end of the sentence. An
+    "or"/"nor" list ("no fever, cough, or chills") is still negated as a whole.
+    """
+    if not any(t.text == "," for t in span_between):
+        return True
+    rest_of_sentence = target.doc[modifier.end:target.sent.end]
+    return any(t.lower_ in ("or", "nor") for t in rest_of_sentence)
